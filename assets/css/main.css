@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Lato";
+  }
+}
+
+:root {
+  --color-primary: #f22539; /* Rojo Fuego */
+  --color-secondary: #eca539; /* Amarillo Ocre */
+  --color-accent: #c00e20; /* Rojo Carmesí */
+  --color-dark: #353535; /* Gris Oscuro */
+  --color-medium: #5e5e5e; /* Gris Medio Oscuro */
+  --color-grayish: #bfbfbf; /* Gris Claro */
+  --color-light: #e8e8e8; /* Gris Muy Claro */
+  --color-offwhite: #f5f5f5; /* Blanco Hueso */
+  --color-background: #f9f9f9; /* Fondo Claro */
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-dark);
+}
+
+.button-primary {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 11px 20px 11px 20px;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  size: 22px;
+  font-weight: 700;
+}
+
+.button-primary:hover {
+  background-color: var(--color-accent);
+}
+
+.gray-dark {
+  color: var(--color-dark);
+}
+.gray-medium {
+  color: var(--color-medium);
+}
+.grayish {
+  color: var(--color-grayish);
+}
+.gray-light {
+  color: var(--color-light);
+}
+.white-offwhite {
+  color: var(--color-offwhite);
+}
+.white-background {
+  color: var(--color-background);
+}
+
+.bg-circle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: var(--color-light); /* Ajusta según tu configuración */
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0.25rem;
+}
