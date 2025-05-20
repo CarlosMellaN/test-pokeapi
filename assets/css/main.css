@@ -41,6 +41,18 @@ body {
   background-color: var(--color-accent);
 }
 
+.yellow-ochre {
+  color: var(--color-secondary);
+}
+.red-fire {
+  color: var(--color-primary);
+}
+.red-crimson {
+  color: var(--color-accent);
+}
+.red-crimson-light {
+  color: var(--color-accent);
+}
 .gray-dark {
   color: var(--color-dark);
 }

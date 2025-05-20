@@ -7,14 +7,15 @@
       <div
         v-for="pokemon in pokemonsList"
         :key="pokemon.name"
-        class="bg-neutral-50 p-6 rounded-md shadow mb-4"
+        class="bg-neutral-50 p-3 rounded-md shadow mb-2"
       >
-        <div
-          class="flex items-center justify-between w-full"
-          @click="openModal(pokemon.name)"
-        >
-          <h3 class="font-bold capitalize">{{ pokemon.name }}</h3>
-          <StarIcon class="h-6 w-6 grayish bg-circle" />
+        <div class="flex items-center justify-between w-full">
+          <div @click="openModal(pokemon.name)" class="flex-1 cursor-pointer">
+            <h3 class="font-bold capitalize">{{ pokemon.name }}</h3>
+          </div>
+          <div @click.stop>
+            <AddRemovePokemonFavorites :pokemon="pokemon" />
+          </div>
         </div>
       </div>
       <PokemonCard
@@ -25,11 +26,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { StarIcon } from "@heroicons/vue/24/solid";
 import type { Pokemon } from "@/types/pokemonTypes";
 import { getAllPokemons } from "@/services/pokemonServices";
 import PokemonSearcher from "./PokemonSearcher.vue";
 import PokemonCard from "./PokemonCard.vue";
+import AddRemovePokemonFavorites from "./AddRemovePokemonFavorites.vue";
 
 const isLoading = ref(false);
 const pokemonsList = ref<Pokemon[]>([]);
@@ -39,6 +40,7 @@ const openModal = (pokemonName: string) => {
   selectedPokemon.value = pokemonName;
   showDialog.value = true;
 };
+
 const getListPokemons = async () => {
   try {
     // const offset = getOffset(pageNum);

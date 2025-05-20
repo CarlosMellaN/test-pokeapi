@@ -50,13 +50,12 @@ const emit = defineEmits<{
   (e: "update:showDialog", value: boolean): void;
 }>();
 const closeDialog = () => {
+  pokemon.value = undefined;
   emit("update:showDialog", false);
 };
 const pokemon = ref<Pokemon>();
 const fetchPokemon = async (name: string) => {
   try {
-    console.log(props.showDialog);
-    console.log(name);
     const pokemonDetails = mapPokemonDetails(await getPokemon(name));
     pokemon.value = pokemonDetails;
   } catch (error) {

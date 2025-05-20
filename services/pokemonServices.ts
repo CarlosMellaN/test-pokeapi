@@ -10,7 +10,7 @@ const apiClient: AxiosInstance = axios.create({
 export const getAllPokemons = async () => {
   try {
     const response = await apiClient.get(
-      `pokemon?limit=${3}`
+      `pokemon?limit=${1400}`
       // "pokemon"
     );
     return response.data;

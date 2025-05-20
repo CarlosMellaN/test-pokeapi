@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import persist from "pinia-plugin-persistedstate";
-
+import { ref } from "vue";
 import type { Pokemon } from "@/types/pokemonTypes";
 
 export const useFavoritePokemonStore = defineStore(
@@ -10,10 +9,12 @@ export const useFavoritePokemonStore = defineStore(
     const favoritesPokemons = ref<Pokemon[]>([]);
     // Acción para agregar un Pokémon a favoritos
     function addFavoritePokemon(pokemon: Pokemon) {
+      // console.log("Adding to favorites:", pokemon);
       const exists = favoritesPokemons.value.some(
         (p) => p.name === pokemon.name
       );
       if (!exists) {
+        console.log("Adding to favorites:", pokemon);
         favoritesPokemons.value.push(pokemon);
       }
     }
@@ -35,6 +36,8 @@ export const useFavoritePokemonStore = defineStore(
     };
   },
   {
-    persist: true,
+    persist: {
+      storage: localStorage,
+    },
   }
 );

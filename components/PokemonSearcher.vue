@@ -12,18 +12,29 @@
       @keyup.enter="searchPokemon"
     />
   </div>
+  <PokemonCard
+    :pokemonName="selectedPokemon"
+    v-model:show-dialog="showDialog"
+  />
 </template>
 <script setup lang="ts">
 import { MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 import { mapPokemonDetails } from "@/utils/pokemonBasics";
 import { getPokemon } from "@/services/pokemonServices";
 import type { Pokemon } from "@/types/pokemonTypes";
+import PokemonCard from "./PokemonCard.vue";
 
 const search = ref("");
 const pokemon = ref<Pokemon | null>(null);
 const errorMessage = ref(
   "No se pudo encontrar el Pokémon. Intenta con otro nombre."
 );
+const showDialog = ref(false);
+const selectedPokemon = ref("");
+const openModal = (pokemonName: string) => {
+  selectedPokemon.value = search.value.toLowerCase().trim();
+  showDialog.value = true;
+};
 
 const searchPokemon = async () => {
   if (search.value.trim()) {
@@ -32,11 +43,11 @@ const searchPokemon = async () => {
       const pokemonData = await getPokemon(search.value.toLowerCase().trim());
       pokemon.value = mapPokemonDetails(pokemonData);
       console.log(pokemon.value);
-      //   showDialog.value = true;
+      openModal(pokemon.value.name);
     } catch (error) {
       console.error("Pokémon no encontrado:", error);
       pokemon.value = null;
-      //   showDialog.value = false;
+      showDialog.value = false;
       //   showError.value = true;
     } finally {
       //   isLoading.value = false;
