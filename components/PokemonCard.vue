@@ -19,7 +19,7 @@
         >
           <button
             @click="closeDialog"
-            class="absolute top-4 right-4 z-20 rounded-full p-1 flex items-center justify-center"
+            class="absolute top-0 right-4 z-20 rounded-full p-1 flex items-center justify-center"
           >
             <XCircleIcon class="w-9 h-9 text-white" />
           </button>
@@ -30,12 +30,15 @@
           />
         </div>
         <p class="text-lg font-bold text-gray-500">Name: {{ pokemon?.name }}</p>
+        <div class="border-b border-gray-200 my-4"></div>
         <p class="text-lg font-bold text-gray-500">
           Weight: {{ pokemon?.weight }}
         </p>
+        <div class="border-b border-gray-200 my-4"></div>
         <p class="text-lg font-bold text-gray-500">
           Height: {{ pokemon?.height }}
         </p>
+        <div class="border-b border-gray-200 my-4"></div>
         <p class="text-lg font-bold text-gray-500 capitalize">
           Types:
           {{
@@ -45,14 +48,17 @@
               .toLowerCase()
           }}
         </p>
-        <div class="flex justify-between mt-4">
+        <div class="border-b border-gray-200 my-4"></div>
+        <div class="flex justify-between mt-6">
           <button
-            class="bg-red-fire text-white flex items-center gap-2 px-8 py-4 rounded-full text-lg"
+            class="bg-red-fire text-white flex items-center gap-2 px-8 py-2 rounded-full text-lg"
             @click="sharePokemon"
           >
             Share to my friends
           </button>
-          <AddRemovePokemonFavorites v-if="pokemon" :pokemon="pokemon" />
+          <div class="flex items-center mt-1">
+            <AddRemovePokemonFavorites v-if="pokemon" :pokemon="pokemon" />
+          </div>
         </div>
       </div>
     </div>

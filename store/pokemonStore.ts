@@ -11,7 +11,6 @@ export const useFavoritePokemonStore = defineStore(
         (p) => p.name.toLowerCase() === pokemon.name.toLowerCase()
       );
       if (!exists) {
-        console.log("Adding to favorites:", pokemon);
         favoritesPokemons.value.push(pokemon);
       }
     }

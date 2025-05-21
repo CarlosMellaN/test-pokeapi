@@ -1,6 +1,6 @@
 <template>
   <StarIcon
-    class="h-6 w-6 text-2xl bg-circle"
+    class="h-10 w-10 text-4xl bg-circle"
     :class="`${isFavoritePokemon(pokemon) ? 'yellow-ochre' : 'grayish'}`"
     @click="toggleFavorite(pokemon)"
   />

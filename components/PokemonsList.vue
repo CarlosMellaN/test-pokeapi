@@ -1,9 +1,13 @@
 <template>
-  <div class="w-full max-w-2xl mt-6">
+  <div
+    class="w-full container w-11/12 max-w-2xl mt-6 pl-5 pr-5 md:pl-0 md:pr-0"
+  >
     <div class="flex flex-col">
-      <PokemonSearcher />
+      <PokemonSearcher @error="handleSearchError" />
+      <NotFound v-if="hasError" />
       <InfiniteScroll
-        class="mt-16"
+        v-else
+        class="mt-24"
         :loadMore="getListPokemons"
         :hasMore="hasMore"
         :isLoading="isLoading"
@@ -12,7 +16,7 @@
           <div
             v-for="pokemon in visiblePokemons"
             :key="pokemon.name"
-            class="bg-neutral-50 p-3 rounded-md shadow mb-2"
+            class="bg-white p-3 rounded-md mb-2"
           >
             <div class="flex justify-between w-full">
               <div
@@ -61,6 +65,11 @@ const visiblePokemons = computed(() => {
     ? favoriteStore.favoritesPokemons
     : pokemonsList.value;
 });
+
+const hasError = ref(false);
+function handleSearchError(val: boolean) {
+  hasError.value = val;
+}
 
 const setShowFavorites = (val: boolean) => {
   showFavorites.value = val;
