@@ -1,58 +1,99 @@
 <template>
-  <div
-    class="w-full pl-6 pr-6 sm:pl-12 sm:pr-12 md:pl-20 md:pr-20 lg:pl-80 lg:pr-80 mt-6"
-  >
-    <div class="flex flex-col gap-4">
+  <div class="w-full max-w-2xl mt-6">
+    <div class="flex flex-col">
       <PokemonSearcher />
-      <div
-        v-for="pokemon in pokemonsList"
-        :key="pokemon.name"
-        class="bg-neutral-50 p-3 rounded-md shadow mb-2"
+      <InfiniteScroll
+        class="mt-16"
+        :loadMore="getListPokemons"
+        :hasMore="hasMore"
+        :isLoading="isLoading"
       >
-        <div class="flex items-center justify-between w-full">
-          <div @click="openModal(pokemon.name)" class="flex-1 cursor-pointer">
-            <h3 class="font-bold capitalize">{{ pokemon.name }}</h3>
+        <template #default>
+          <div
+            v-for="pokemon in visiblePokemons"
+            :key="pokemon.name"
+            class="bg-neutral-50 p-3 rounded-md shadow mb-2"
+          >
+            <div class="flex justify-between w-full">
+              <div
+                @click="openModal(pokemon.name)"
+                class="flex-1 cursor-pointer"
+              >
+                <h3 class="font-medium text-[22px] capitalize">
+                  {{ pokemon.name }}
+                </h3>
+              </div>
+              <div @click.stop>
+                <AddRemovePokemonFavorites :pokemon="pokemon" />
+              </div>
+            </div>
           </div>
-          <div @click.stop>
-            <AddRemovePokemonFavorites :pokemon="pokemon" />
-          </div>
-        </div>
-      </div>
-      <PokemonCard
-        :pokemonName="selectedPokemon"
-        v-model:show-dialog="showDialog"
-      />
+          <PokemonCard
+            :pokemonName="selectedPokemon"
+            v-model:show-dialog="showDialog"
+          />
+        </template>
+      </InfiniteScroll>
     </div>
+    <BottomBar @toggleFavorites="setShowFavorites" />
   </div>
 </template>
 <script setup lang="ts">
+import { ref, onMounted, computed } from "vue";
 import type { Pokemon } from "@/types/pokemonTypes";
 import { getAllPokemons } from "@/services/pokemonServices";
 import PokemonSearcher from "./PokemonSearcher.vue";
 import PokemonCard from "./PokemonCard.vue";
 import AddRemovePokemonFavorites from "./AddRemovePokemonFavorites.vue";
+import BottomBar from "./BottomBar.vue";
+import InfiniteScroll from "./InfiniteScroll.vue";
+import { useFavoritePokemonStore } from "@/store/pokemonStore";
 
 const isLoading = ref(false);
 const pokemonsList = ref<Pokemon[]>([]);
 const showDialog = ref(false);
 const selectedPokemon = ref("");
+const showFavorites = ref(false);
+const favoriteStore = useFavoritePokemonStore();
+
+const visiblePokemons = computed(() => {
+  return showFavorites.value
+    ? favoriteStore.favoritesPokemons
+    : pokemonsList.value;
+});
+
+const setShowFavorites = (val: boolean) => {
+  showFavorites.value = val;
+};
+
+const limit = 100;
+const offset = ref(0);
+const hasMore = ref(true);
+
 const openModal = (pokemonName: string) => {
   selectedPokemon.value = pokemonName;
   showDialog.value = true;
 };
 
 const getListPokemons = async () => {
+  if (isLoading.value || !hasMore.value) return;
+  isLoading.value = true;
   try {
-    // const offset = getOffset(pageNum);
-    const pokemons = await getAllPokemons();
-    pokemonsList.value = pokemons.results.map((pokemon: any) => ({
-      name: pokemon.name,
-      url: pokemon.url,
-    }));
+    const pokemons = await getAllPokemons(limit, offset.value);
+    if (pokemons.results.length < limit) {
+      hasMore.value = false;
+    }
+    pokemonsList.value = pokemonsList.value.concat(
+      pokemons.results.map((pokemon: any) => ({
+        name: pokemon.name,
+        url: pokemon.url,
+      }))
+    );
+    offset.value += limit;
   } catch (error) {
     console.error("Error fetching pokemons:", error);
   } finally {
-    isLoading.value = true;
+    isLoading.value = false;
   }
 };
 

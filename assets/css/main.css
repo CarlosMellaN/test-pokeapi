@@ -72,6 +72,14 @@ body {
   color: var(--color-background);
 }
 
+.bg-red-fire {
+  background-color: var(--color-primary);
+}
+
+.bg-grayish {
+  background-color: var(--color-grayish);
+}
+
 .bg-circle {
   display: inline-flex;
   justify-content: center;

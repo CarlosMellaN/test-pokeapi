@@ -8,38 +8,63 @@
         class="absolute inset-0 bg-black bg-opacity-50"
         @click="closeDialog"
       ></div>
-      <div
-        class="relative bg-white rounded-lg shadow-xl p-6 max-w-sm w-full text-center"
-      >
-        <button
-          @click="closeDialog"
-          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl leading-none"
-        >
-          ✕
-        </button>
+      <div class="relative bg-white rounded-lg shadow-xl p-6 max-w-2xl w-full">
         <img
-          :src="pokemon?.imageFront"
-          alt="pokemon.name"
-          class="mx-auto mb-2 w-20 h-20"
+          src="@/assets/svg/background.svg"
+          alt="background"
+          class="pokemoncard-bg absolute left-0 top-0 w-full object-cover z-0 pointer-events-none"
         />
-        <h2 class="text-lg font-bold capitalize">{{ pokemon?.name }}</h2>
-        <p class="text-sm text-gray-500">Weight {{ pokemon?.weight }}</p>
-        <button
-          @click="closeDialog"
-          class="mt-4 px-6 py-2 bg-gray-100 hover:bg-gray-200 rounded font-medium transition-colors"
+        <div
+          class="pokemoncard-imgblock relative flex flex-col items-center justify-center w-full"
         >
-          Close
-        </button>
+          <button
+            @click="closeDialog"
+            class="absolute top-4 right-4 z-20 rounded-full p-1 flex items-center justify-center"
+          >
+            <XCircleIcon class="w-9 h-9 text-white" />
+          </button>
+          <img
+            :src="pokemon?.imageFront"
+            alt="pokemon.name"
+            class="pokemoncard-img relative z-10 mx-auto object-contain"
+          />
+        </div>
+        <p class="text-lg font-bold text-gray-500">Name: {{ pokemon?.name }}</p>
+        <p class="text-lg font-bold text-gray-500">
+          Weight: {{ pokemon?.weight }}
+        </p>
+        <p class="text-lg font-bold text-gray-500">
+          Height: {{ pokemon?.height }}
+        </p>
+        <p class="text-lg font-bold text-gray-500 capitalize">
+          Types:
+          {{
+            pokemon?.types
+              .map((type) => type?.name)
+              .join(", ")
+              .toLowerCase()
+          }}
+        </p>
+        <div class="flex justify-between mt-4">
+          <button
+            class="bg-red-fire text-white flex items-center gap-2 px-8 py-4 rounded-full text-lg"
+            @click="sharePokemon"
+          >
+            Share to my friends
+          </button>
+          <AddRemovePokemonFavorites v-if="pokemon" :pokemon="pokemon" />
+        </div>
       </div>
     </div>
   </Teleport>
 </template>
-
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import type { Pokemon } from "@/types/pokemonTypes";
 import { mapPokemonDetails } from "@/utils/pokemonBasics";
 import { getPokemon } from "@/services/pokemonServices";
+import AddRemovePokemonFavorites from "./AddRemovePokemonFavorites.vue";
+import { XCircleIcon } from "@heroicons/vue/24/solid";
 
 const props = defineProps<{
   pokemonName: string;
@@ -53,7 +78,7 @@ const closeDialog = () => {
   pokemon.value = undefined;
   emit("update:showDialog", false);
 };
-const pokemon = ref<Pokemon>();
+const pokemon = ref<Pokemon | null>(null);
 const fetchPokemon = async (name: string) => {
   try {
     const pokemonDetails = mapPokemonDetails(await getPokemon(name));
@@ -75,4 +100,34 @@ onMounted(() => {
     fetchPokemon(props.pokemonName);
   }
 });
+
+function sharePokemon() {
+  if (pokemon.value) {
+    const { name, height, weight, types } = pokemon.value;
+    const typesString = types.map((t) => t.name).join(", ");
+    const text = `Name: ${name}, Weight: ${weight}, Height: ${height}, Types: ${typesString}`;
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        alert("Copied to clipboard");
+      })
+      .catch((err) => {
+        console.error("can't copy to clipboard:", err);
+      });
+  }
+}
 </script>
+<style scoped>
+.pokemoncard-bg {
+  height: 240px;
+  max-width: 100%;
+}
+.pokemoncard-imgblock {
+  height: 240px;
+}
+.pokemoncard-img {
+  max-height: 200px;
+  width: 200px;
+  height: 200px;
+}
+</style>

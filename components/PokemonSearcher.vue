@@ -1,16 +1,18 @@
 <template>
-  <div class="relative">
-    <MagnifyingGlassIcon
-      class="h-6 w-6 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-    />
-    <input
-      v-model="search"
-      type="text"
-      name="search"
-      class="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-      placeholder="search"
-      @keyup.enter="searchPokemon"
-    />
+  <div class="fixed top-5 left-0 right-0 z-30 flex">
+    <div class="relative w-full max-w-2xl mx-auto">
+      <MagnifyingGlassIcon
+        class="h-6 w-6 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+      />
+      <input
+        v-model="search"
+        type="text"
+        name="search"
+        class="w-full py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 pl-10"
+        placeholder="search"
+        @keyup.enter="searchPokemon"
+      />
+    </div>
   </div>
   <PokemonCard
     :pokemonName="selectedPokemon"

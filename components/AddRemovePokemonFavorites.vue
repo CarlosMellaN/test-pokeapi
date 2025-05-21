@@ -1,6 +1,6 @@
 <template>
   <StarIcon
-    class="h-6 w-6 bg-circle"
+    class="h-6 w-6 text-2xl bg-circle"
     :class="`${isFavoritePokemon(pokemon) ? 'yellow-ochre' : 'grayish'}`"
     @click="toggleFavorite(pokemon)"
   />
@@ -21,8 +21,6 @@ const isFavoritePokemon = computed(
 );
 
 const toggleFavorite = (pokemon: Pokemon) => {
-  console.log("toggleFavorite", pokemon);
-  // Usa .value para acceder a la función dentro del computed
   if (isFavoritePokemon.value(pokemon)) {
     favoritesPokemons.removeFavoritePokemon(pokemon.name);
   } else {
