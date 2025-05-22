@@ -1,8 +1,7 @@
 <template>
   <div class="grid place-items-center h-screen">
-    <SpinnerLoading v-if="isLoading && !showList" />
     <PokemonsList v-if="showList" />
-    <div class="text-center max-w-lg px-4" v-if="!isLoading && !showList">
+    <div class="text-center max-w-lg px-4" v-if="!showList">
       <div class="flex justify-center mb-6">
         <img :src="pikachuSvg" alt="pikachu" />
       </div>
@@ -27,11 +26,7 @@ import { ref } from "vue";
 const isLoading = ref(false);
 const showList = ref(false);
 const getListPokemons = () => {
-  isLoading.value = true;
-  setTimeout(() => {
-    isLoading.value = false;
-    showList.value = true;
-  }, 800); // Simula carga, reemplaza por fetch real si es necesario
+  showList.value = true;
 };
 </script>
 <style scoped>

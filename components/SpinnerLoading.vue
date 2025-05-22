@@ -1,5 +1,5 @@
 <template>
-  <div class="spinner">
+  <div class="spinner grid place-items-center h-screen">
     <img src="@/assets/svg/Loader.svg" alt="Loader" />
   </div>
 </template>

@@ -46,10 +46,8 @@ const openModal = (pokemonName: string) => {
 const searchPokemon = async () => {
   if (search.value.trim()) {
     try {
-      //    isLoading.value = true;
       const pokemonData = await getPokemon(search.value.toLowerCase().trim());
       pokemon.value = mapPokemonDetails(pokemonData);
-      console.log(pokemon.value);
       openModal(pokemon.value.name);
     } catch (error) {
       console.error("Pokémon no encontrado:", error);

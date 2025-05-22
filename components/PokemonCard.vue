@@ -5,7 +5,7 @@
       class="fixed inset-0 z-50 flex items-center justify-center p-4"
     >
       <div
-        class="absolute inset-0 bg-black bg-opacity-50"
+        class="absolute inset-0 bg-black bg-opacity-70"
         @click="closeDialog"
       ></div>
       <div class="relative bg-white rounded-lg shadow-xl p-6 max-w-2xl w-full">
@@ -19,13 +19,13 @@
         >
           <button
             @click="closeDialog"
-            class="absolute top-0 right-4 z-20 rounded-full p-1 flex items-center justify-center"
+            class="absolute top-0 -right-4 z-20 rounded-full p-1 flex justify-end"
           >
             <XCircleIcon class="w-9 h-9 text-white" />
           </button>
           <img
             :src="pokemon?.imageFront"
-            alt="pokemon.name"
+            :alt="pokemon?.name"
             class="pokemoncard-img relative z-10 mx-auto object-contain"
           />
         </div>
