@@ -105,24 +105,6 @@ yarn build
 bun run build
 ```
 
-## 🧪 Ejecutar Tests
-
-```bash
-# npm
-npm test
-
-# pnpm
-pnpm test
-
-# yarn
-yarn test
-
-# bun
-bun test
-```
-
-yarn dev
-
 # bun
 
 bun run dev
